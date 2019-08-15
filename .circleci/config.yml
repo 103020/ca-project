@@ -6,14 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:2.7
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
 
     working_directory: ~/repo
 
@@ -25,12 +18,55 @@ jobs:
           command: |
             pip install --user -r requirements.txt
 
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
       - run:
           name: run tests
           command: |
             python tests.py
+
+  dockerize:
+   machine: true
+   working_directory: ~/repo
+   steps:
+     # Login to docker
+     - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+     # build the application image
+     - run: docker build -t $DOCKER_USER/myapp-project:$CIRCLE_SHA1 .
+
+     # deploy the image
+     - run: docker push $DOCKER_USER/myapp-project:$CIRCLE_SHA1    
+
+
+  deploy:
+    machine:
+      enabled: true
+    working_directory: ~/repo
+    steps:
+      - run:
+          name: Save the sshkey
+          command: |
+            echo $sshkey > key
+      - run:
+          name: chmod the key
+          command: |
+            chmod 400 key
+      - run:
+          name: stop the old, pull and start the new docker image
+          command: |
+            ssh -i key ubuntu@ipadr "docker stop myapp-project ; docker pull $DOCKER_USER/myapp-project ; docker run -d myapp-project"
+
+workflows:
+  version: 2
+  build-dockerize-and-deploy:
+    jobs:
+      - build
+      - dockerize:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - dockerize
+          filters:
+            branches:
+              only: sequential-branch-filter
+
