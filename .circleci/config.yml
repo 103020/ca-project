@@ -44,6 +44,9 @@ jobs:
      # deploy the image
      - run: docker push $DOCKER_USER/myapp-project:$CIRCLE_SHA1    
 
+     - run: docker tag $DOCKER_USER/myapp-project[:$CIRCLE_SHA1] $DOCKER_USER/myapp-project[:latest]
+
+     - run: docker push $DOCKER_USER/myapp-project:$latest    
 
   deploy:
     machine:
