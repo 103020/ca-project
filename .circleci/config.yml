@@ -51,17 +51,13 @@ jobs:
 #    working_directory: ~/Git/ca-project
     steps:
       - run:
-          name: Save the sshkey
-          command: |
-            echo $sshkey > key
-      - run:
-          name: chmod the key
-          command: |
-            chmod 400 key
+          - add_ssh_keys:
+            fingerprints:
+              - "bc:b2:8d:c5:3c:61:9e:44:93:37:a3:2b:cf:36:09:a2"
       - run:
           name: stop the old, pull and start the new docker image
           command: |
-            ssh -i key ubuntu@35.190.193.132 "docker stop myapp-project ; docker pull $DOCKER_USER/myapp-project ; docker run -d myapp-project"
+            ssh ubuntu@35.190.193.132 "docker stop myapp-project ; docker pull $DOCKER_USER/myapp-project ; docker run -d myapp-project"
 
 workflows:
   version: 2
