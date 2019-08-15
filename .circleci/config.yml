@@ -23,10 +23,18 @@ jobs:
           command: |
             python tests.py
 
+      - persist_to_workspace:
+         root: .
+         paths:
+           - .
+
+
   dockerize:
    machine: true
 #   working_directory: ~/Git/ca-project
    steps:
+     - attach_workspace:
+        at: /tmp/workspace
      # Login to docker
      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
