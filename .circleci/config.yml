@@ -34,7 +34,7 @@ jobs:
 #   working_directory: ~/Git/ca-project
    steps:
      - attach_workspace:
-        at: /tmp/workspace
+        at: .
      # Login to docker
      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
@@ -74,7 +74,4 @@ workflows:
       - deploy:
           requires:
             - dockerize
-          filters:
-            branches:
-              only: sequential-branch-filter
 
