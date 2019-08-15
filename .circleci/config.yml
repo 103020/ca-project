@@ -8,7 +8,7 @@ jobs:
     docker:
       - image: circleci/python:2.7
 
-    working_directory: /home/ubuntu/Git/ca-project
+    working_directory: ~/Git/ca-project
 
     steps:
       - checkout
@@ -25,7 +25,7 @@ jobs:
 
   dockerize:
    machine: true
-   working_directory: /home/ubuntu/Git/ca-project
+   working_directory: ~/Git/ca-project
    steps:
      # Login to docker
      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
@@ -40,7 +40,7 @@ jobs:
   deploy:
     machine:
       enabled: true
-    working_directory: /home/ubuntu/Git/ca-project
+    working_directory: ~/Git/ca-project
     steps:
       - run:
           name: Save the sshkey
