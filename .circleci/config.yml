@@ -42,7 +42,7 @@ jobs:
 #           touch artifact.zip;
 #           echo . > artifact.zip
 
-     -store_artifacts:
+     - store_artifacts:
          path: /code/artifact
          destination: prefix
 
