@@ -61,7 +61,7 @@ jobs:
       - run:
           name: stop the old, pull and start the new docker image
           command: |
-            ssh -i key ubuntu@ipadr "docker stop myapp-project ; docker pull $DOCKER_USER/myapp-project ; docker run -d myapp-project"
+            ssh -i key ubuntu@35.190.193.132 "docker stop myapp-project ; docker pull $DOCKER_USER/myapp-project ; docker run -d myapp-project"
 
 workflows:
   version: 2
