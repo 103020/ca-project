@@ -50,10 +50,9 @@ jobs:
       enabled: true
 #    working_directory: ~/Git/ca-project
     steps:
-      - run:
-          - add_ssh_keys:
-            fingerprints:
-              - "bc:b2:8d:c5:3c:61:9e:44:93:37:a3:2b:cf:36:09:a2"
+      - add_ssh_keys:
+          fingerprints:
+            - "bc:b2:8d:c5:3c:61:9e:44:93:37:a3:2b:cf:36:09:a2"
       - run:
           name: stop the old, pull and start the new docker image
           command: |
