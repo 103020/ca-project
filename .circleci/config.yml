@@ -35,6 +35,16 @@ jobs:
    steps:
      - attach_workspace:
         at: .
+
+     - run 
+       name: Create artifact
+       command: |
+         touch artifact.zip;
+         echo . > artifact.zip
+
+     -store_artifacts:
+       destination: artifact-file
+
      # Login to docker
      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
 
