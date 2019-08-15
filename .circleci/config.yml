@@ -53,6 +53,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "bc:b2:8d:c5:3c:61:9e:44:93:37:a3:2b:cf:36:09:a2"
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: stop the old, pull and start the new docker image
           command: |
