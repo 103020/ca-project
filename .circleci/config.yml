@@ -36,14 +36,12 @@ jobs:
      - attach_workspace:
         at: .
 
-#     - run 
-#         name: Create artifact
-#         command: |
-#           touch artifact.zip;
-#           echo . > artifact.zip
+     - run:
+         name: Compress Artifacts
+         command: zip -cvf myartifact.zip .
 
      - store_artifacts:
-         path: .
+         path: myartifact.zip
          destination: prefix
 
      # Login to docker
